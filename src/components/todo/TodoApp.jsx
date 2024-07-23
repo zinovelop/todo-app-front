@@ -1,12 +1,21 @@
 import './TodoApp.css'
 import {useState} from 'react'
+import { Route,Routes, BrowserRouter, useNavigate, useParams } from 'react-router-dom'
 import React from 'react'
 
 export default  function TodoApp() {
     return (
         <div className="TodoApp">
-            <LoginComponent />
-            {/* <WelcomeComponent /> */}
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />}></Route>
+                    <Route path='/login' element={<LoginComponent />}></Route>
+                    <Route path='/welcome/:username' element={<WelcomeComponent />}></Route>
+                    <Route path='/*' element={<ErrorComponent />}></Route>
+                </Routes>
+            </BrowserRouter>
+           
+            
         </div>
     )
 }
@@ -15,35 +24,16 @@ export default  function TodoApp() {
 export function LoginComponent() { 
     const [userName, setUserName] = useState ('jinho');
     const [password, setPassword] = useState ('');
-    const [showSuccessMessage, setSuccessMessageState] = useState(false)
-    const [showErrorssage, setErrorMessageState] = useState(false)
-
-    function Success() {
-        if (showSuccessMessage) {
-            return (
-            <div className='successMessage' >Authenticatied Successfully.</div>
-        )
-        }
-        return null 
-    }
-    
-    function Error() {
-            if (showErrorssage) {
-                return (
-                <div className='errorMessage' >Authenticatied Failed.</div>
-            )
-        }
-        return null
-    }
-
+    const [showSuccessMessage, setSuccessMessageState] = useState(false);
+    const [showErrorssage, setErrorMessageState] = useState(false);
+    const navigate = useNavigate();
 
     function checkAuth() {
         if(userName==='jinho' && password ==='asd123'){
-            console.log('check')
             setSuccessMessageState(true)
             setErrorMessageState(false)
+            navigate(`/welcome/${userName}`)
         }else {
-            console.log('failed')
             setSuccessMessageState(false)
             setErrorMessageState(true)
         }
@@ -51,8 +41,10 @@ export function LoginComponent() {
 
     return (
         <div className="Login">
-            <Success />
-            <Error />
+            <h1>Login</h1>
+            {showSuccessMessage && <div className='successMessage' >Authenticatied Successfully.</div>}
+            {showErrorssage && <div className='errorMessage' >Authenticatied Failed.</div>}
+            
             <div className="loginForm">
                 <div>
                     <label>UserName</label>
@@ -71,8 +63,28 @@ export function LoginComponent() {
 
 }
 
-export  function WelcomeComponent() {
+function WelcomeComponent() {
+
+    const {username} = useParams();
+    console.log(username);
+
     return (
-        <div className="Welcome" >WelcomeComponent</div>
+        <div>
+            <h1>Welcome {username}</h1>
+            <div className="WelcomeComponent" >
+                WelcomeComponent
+            </div>
+        </div>
+    )
+}
+
+function ErrorComponent() {
+    return (
+        <div>
+            <h1>Error</h1>
+            <div className="ErrorComponent" >
+                ErrorComponent
+            </div>
+        </div>
     )
 }
