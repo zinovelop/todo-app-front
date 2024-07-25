@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useAuth} from "./security/AuthContext";
 
 export function Login() {
     const [userName, setUserName] = useState ('jinho');
@@ -8,10 +9,15 @@ export function Login() {
     const [showErrorssage, setErrorMessageState] = useState(false);
     const navigate = useNavigate();
 
+    const setAuth = useAuth().setIsAuthenticated;
+
     function checkAuth() {
+
+
         if(userName==='jinho' && password ==='asd123'){
-            setSuccessMessageState(true)
-            setErrorMessageState(false)
+            setAuth(true)
+            // setSuccessMessageState(true)
+            // setErrorMessageState(false)
             navigate(`/welcome/${userName}`)
         }else {
             setSuccessMessageState(false)

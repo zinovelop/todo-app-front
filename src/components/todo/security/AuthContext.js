@@ -1,13 +1,21 @@
-import {createContext, useState} from "react";
+import {createContext, useContext, useState} from "react";
 
 export const AuthContext = createContext();
 
+export const useAuth = () => useContext(AuthContext);
+
 
 export default function AuthProvider({ children }) {
-    const [num, setNum] = useState(0);
+
+
+    const num = useState(0)[0];
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    // setInterval(() => setNum(num+1), 10000)
+    const sharedVale = {num, isAuthenticated, setIsAuthenticated}
 
     return (
-        <AuthContext.Provider value={{num}}>
+        <AuthContext.Provider value={ sharedVale }>
             {children}
         </AuthContext.Provider>
     );
