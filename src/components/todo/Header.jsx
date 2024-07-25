@@ -8,6 +8,10 @@ function Header() {
     const authContext = useAuth();
     const isLoggedIn = authContext.isAuthenticated;
 
+    function logout() {
+        authContext.setIsAuthenticated(false);
+    }
+
 
     return (
         <header className="header">
@@ -17,13 +21,15 @@ function Header() {
                        href="https://www.naver.com">Naver</a>
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav">
-                            <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/jinho">Home</Link></li>
-                            <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+                            {isLoggedIn &&<li className="nav-item fs-5"><Link className="nav-link" to="/welcome/jinho">Home</Link></li>}
+                            {isLoggedIn &&<li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>}
+                            {/*<li className="nav-item fs-5"><Link className="nav-link" to="/welcome/jinho">Home</Link></li>*/}
+                            {/*<li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>*/}
                         </ul>
                     </div>
                     <ul className="navbar-nav">
                         {!isLoggedIn && <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>}
-                        {isLoggedIn && <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>}
+                        {isLoggedIn && <li className="nav-item fs-5"><Link className="nav-link" to="/logout" onClick={logout}>Logout</Link></li>}
                     </ul>
                 </nav>
             </div>

@@ -12,10 +12,9 @@ export default function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     // setInterval(() => setNum(num+1), 10000)
-    const sharedVale = {num, isAuthenticated, setIsAuthenticated}
 
     return (
-        <AuthContext.Provider value={ sharedVale }>
+        <AuthContext.Provider value={ {num, isAuthenticated, setIsAuthenticated} }>
             {children}
         </AuthContext.Provider>
     );
