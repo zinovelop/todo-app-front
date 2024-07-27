@@ -4,13 +4,10 @@ import {useAuth} from "./security/AuthContext";
 
 function Header() {
 
-    // const num = useContext(AuthProvider);
     const authContext = useAuth();
     const isLoggedIn = authContext.isAuthenticated;
 
-    function logout() {
-        authContext.setIsAuthenticated(false);
-    }
+    const logout = authContext.logout;
 
 
     return (
@@ -23,8 +20,6 @@ function Header() {
                         <ul className="navbar-nav">
                             {isLoggedIn &&<li className="nav-item fs-5"><Link className="nav-link" to="/welcome/jinho">Home</Link></li>}
                             {isLoggedIn &&<li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>}
-                            {/*<li className="nav-item fs-5"><Link className="nav-link" to="/welcome/jinho">Home</Link></li>*/}
-                            {/*<li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>*/}
                         </ul>
                     </div>
                     <ul className="navbar-nav">

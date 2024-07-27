@@ -8,8 +8,22 @@ import Login from "./Login";
 import Error from "./Error";
 import Footer from "./Footer";
 import Welcome from "./Welcome";
-import AuthProvider from "./security/AuthContext";
+import AuthProvider, {useAuth} from "./security/AuthContext";
 
+
+function AuthenticatedRoute({children}) {
+    if (useAuth().isAuthenticated){
+        return (
+            <>
+                {children}
+            </>
+        )
+    } else {
+        return (
+            <Error/>
+        );
+    }
+}
 
 
 export default  function TodoApp() {
@@ -21,12 +35,10 @@ export default  function TodoApp() {
                     <Routes>
                         <Route path='/' element={<Login />} />
                         <Route path='/login' element={<Login />} />
-                        <Route path='/welcome/:username' element={<Welcome />} />
-                        <Route path='/todos' element={<ListTodos />} />
+                        <Route path='/welcome/:username' element={<AuthenticatedRoute><Welcome /></AuthenticatedRoute>} />
+                        <Route path='/todos' element={<AuthenticatedRoute><ListTodos /></AuthenticatedRoute>} />
                         <Route path='/logout' element={<Logout />} />
-
                         <Route path='/*' element={<Error />} />
-
                     </Routes>
                     <Footer/>
                 </BrowserRouter>

@@ -5,22 +5,16 @@ import {useAuth} from "./security/AuthContext";
 export function Login() {
     const [userName, setUserName] = useState ('jinho');
     const [password, setPassword] = useState ('');
-    const [showSuccessMessage, setSuccessMessageState] = useState(false);
     const [showErrorssage, setErrorMessageState] = useState(false);
     const navigate = useNavigate();
 
-    const setAuth = useAuth().setIsAuthenticated;
+    const context = useAuth();
 
     function checkAuth() {
-
-
-        if(userName==='jinho' && password ==='asd123'){
-            setAuth(true)
-            // setSuccessMessageState(true)
-            // setErrorMessageState(false)
+        if(context.login(userName, password)){
+            setErrorMessageState(false)
             navigate(`/welcome/${userName}`)
         }else {
-            setSuccessMessageState(false)
             setErrorMessageState(true)
         }
     }
@@ -28,7 +22,6 @@ export function Login() {
     return (
         <div className="Login">
             <h1>Login</h1>
-            {showSuccessMessage && <div className='successMessage' >Authenticatied Successfully.</div>}
             {showErrorssage && <div className='errorMessage' >Authenticatied Failed.</div>}
 
             <div className="loginForm">
